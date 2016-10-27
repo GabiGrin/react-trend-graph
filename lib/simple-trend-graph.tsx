@@ -10,6 +10,8 @@ export interface SimpleTrendGraphProps {
 	dataSet: number[];
 	smoothing: number;
 	animate?: SimpleTrendGraphAnimationData;
+	width: number;
+	height: number;
 }
 
 const normalizeDataSet = (ds: number[]): number[] => {
@@ -96,7 +98,7 @@ export class SimpleTrendGraph extends React.Component<SimpleTrendGraphProps, any
 	componentWillReceiveProps(nextProps: SimpleTrendGraphProps) {
 		const ds = nextProps.dataSet;
 		const normalized = movingAverage(normalizeDataSet(ds), nextProps.smoothing);
-		console.log(normalized, this.state.normalizedDataSet);
+
 		const animationOptions = nextProps.animate;
 		this.setState({normalizedDataSet: normalized});
 		console.log(nextProps.animate);
@@ -110,17 +112,20 @@ export class SimpleTrendGraph extends React.Component<SimpleTrendGraphProps, any
 	}
 
 	render() {
-		const modifier = 100;
+		const width = this.props.width;
+		const height = this.props.height;
+
+		const modifier = height;
 		const ds2 = this.state.visibleDataSet.map(point => modifier - Math.floor(point * modifier));
 		const [first, ...rest] = ds2;
 		const initial = `M0 ${first}`;
 		const length = ds2.length;
-		const idxToX = idx => Math.floor((idx / (length - 1)) * 100);
-		const ending = `L100 100 L0 100 Z`;
+		const idxToX = idx => Math.floor((idx / (length - 1)) * width);
+		const ending = `L${width} ${height} L0 ${height} Z`;
 		const bob = [initial, ...(rest.map((point, idx) => `L${idxToX(idx + 1)} ${point}`)), ending].join(' ');
 
 
-		return (<svg width='100' height='100' viewBox='0 0 100 100'>
+		return (<svg width={width} height={height} viewBox={`0 0 ${width} ${height}`}>
 			<path className='graph' d={bob} fill='blue' stroke='red'/>
 		</svg>);
 	}

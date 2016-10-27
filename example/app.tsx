@@ -35,7 +35,7 @@ class ExampleApp extends React.Component<any, any> {
 
 	render() {
 		const easing = t => t;
-		return <div><SimpleTrendGraph dataSet={this.state.ds} smoothing={this.state.smoothing} animate={{time: 2000, easing}}/><button onClick={this.reset.bind(this)}></button><input type='number' onChange={e => this.changeSmoothing(parseInt(e.target.value, 10))}/><pre><code>{this.state.ds.join(', ')}</code></pre></div>;
+		return <div><SimpleTrendGraph width={300} height={100} dataSet={this.state.ds} smoothing={this.state.smoothing} animate={{time: 2000, easing}}/><button onClick={this.reset.bind(this)}></button><input type='number' onChange={e => this.changeSmoothing(parseInt(e.target.value, 10))}/><pre><code>{this.state.ds.join(', ')}</code></pre></div>;
 	}
 }
 

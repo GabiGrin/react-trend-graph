@@ -37,7 +37,7 @@ var ExampleApp = (function (_super) {
         var _this = this;
         var easing = function (t) { return t; };
         return React.createElement("div", null, 
-            React.createElement(_1.SimpleTrendGraph, {dataSet: this.state.ds, smoothing: this.state.smoothing, animate: { time: 2000, easing: easing }}), 
+            React.createElement(_1.SimpleTrendGraph, {width: 300, height: 100, dataSet: this.state.ds, smoothing: this.state.smoothing, animate: { time: 2000, easing: easing }}), 
             React.createElement("button", {onClick: this.reset.bind(this)}), 
             React.createElement("input", {type: 'number', onChange: function (e) { return _this.changeSmoothing(parseInt(e.target.value, 10)); }}), 
             React.createElement("pre", null, 

@@ -74,7 +74,6 @@ var SimpleTrendGraph = (function (_super) {
     SimpleTrendGraph.prototype.componentWillReceiveProps = function (nextProps) {
         var ds = nextProps.dataSet;
         var normalized = movingAverage(normalizeDataSet(ds), nextProps.smoothing);
-        console.log(normalized, this.state.normalizedDataSet);
         var animationOptions = nextProps.animate;
         this.setState({ normalizedDataSet: normalized });
         console.log(nextProps.animate);
@@ -86,15 +85,17 @@ var SimpleTrendGraph = (function (_super) {
         }
     };
     SimpleTrendGraph.prototype.render = function () {
-        var modifier = 100;
+        var width = this.props.width;
+        var height = this.props.height;
+        var modifier = height;
         var ds2 = this.state.visibleDataSet.map(function (point) { return modifier - Math.floor(point * modifier); });
         var first = ds2[0], rest = ds2.slice(1);
         var initial = "M0 " + first;
         var length = ds2.length;
-        var idxToX = function (idx) { return Math.floor((idx / (length - 1)) * 100); };
-        var ending = "L100 100 L0 100 Z";
+        var idxToX = function (idx) { return Math.floor((idx / (length - 1)) * width); };
+        var ending = "L" + width + " " + height + " L0 " + height + " Z";
         var bob = [initial].concat((rest.map(function (point, idx) { return ("L" + idxToX(idx + 1) + " " + point); })), [ending]).join(' ');
-        return (React.createElement("svg", {width: '100', height: '100', viewBox: '0 0 100 100'}, 
+        return (React.createElement("svg", {width: width, height: height, viewBox: "0 0 " + width + " " + height}, 
             React.createElement("path", {className: 'graph', d: bob, fill: 'blue', stroke: 'red'})
         ));
     };
